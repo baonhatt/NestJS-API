@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose'
 import { Blog } from '../schemas/blog.schema';
 import * as mongoose from 'mongoose';
+import { User } from 'src/schemas/user.schema';
 @Injectable()
 export class BlogService {
 
@@ -13,8 +14,11 @@ export class BlogService {
         return await this.blogModel.find().exec();
     }
 
-    async create(blog: Blog): Promise<Blog> {
-        const res = await this.blogModel.create(blog);
+    async create(blog: Blog, user: User): Promise<Blog> {
+
+
+        const data = Object.assign(blog, { user: user._id})
+        const res = await this.blogModel.create(data);
         return res
     }
     async findbyId(id: string): Promise<Blog> {
