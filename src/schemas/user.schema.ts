@@ -1,5 +1,7 @@
 import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
+import { ObjectId } from 'mongodb';
+
 @Schema({
     timestamps: true
 })
@@ -17,6 +19,10 @@ export class User extends Document{
 
     @Prop()
     name: string;
+
+
+    @Prop()
+    id: ObjectId;
 
     
 }

@@ -9,7 +9,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from '../auth/constant';
 import { refreshJwtStrategy } from 'src/strategy/resfresh.strategy';
-
+import * as argon2 from 'argon2';
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
@@ -20,8 +20,8 @@ import { refreshJwtStrategy } from 'src/strategy/resfresh.strategy';
     }),
     MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, refreshJwtStrategy],
   controllers: [AuthController],
-  exports: [JwtStrategy, PassportModule]
+  exports: [JwtStrategy, PassportModule, refreshJwtStrategy]
 })
 export class AuthModule {}

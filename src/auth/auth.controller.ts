@@ -20,7 +20,7 @@ export class AuthController {
 
   @Get("/login")
 
-  login(@Body() loginDTO: loginDTO): Promise<{ token: string }> {
+  login(@Body() loginDTO: loginDTO): Promise<{ accessToken: string }> {
     return this.authService.login(loginDTO);
   }
 
@@ -42,8 +42,10 @@ export class AuthController {
     return { message: 'All users deleted successfully' };
   }
   // @UseGuards(RefreshJwtGuard)
-  // @Post('refresh')
-  // async refreshToken( @Request() req){
-  //   await this.authService.refreshToken(req.user)
-  // }
+  @Post('/refresh-token')
+  async refreshToken(@Request() req) {
+    const refreshToken = req.headers.authorization.replace('Bearer ', ''); // Lấy mã token refresh từ tiêu đề
+    const newAccessToken = await this.authService.refreshToken(refreshToken);
+    return newAccessToken
+  }
 }

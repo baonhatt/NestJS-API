@@ -9,7 +9,9 @@ export class registerDto{
     @IsNotEmpty()
     @IsString()
     readonly username: string;
-
+    
+    @IsString()
+    readonly _id: string;
 
     @IsNotEmpty()
     @IsEmail( {}, {message: 'Please correct email'})
