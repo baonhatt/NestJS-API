@@ -58,7 +58,7 @@ export class AuthService {
     return { token };
   }
 
-  async login(loginDTO: loginDTO): Promise<{ accessToken: string, refreshToken: string, email: string, username: string }> {
+  async login(loginDTO: loginDTO): Promise<{ _id: string, accessToken: string, refreshToken: string, email: string, username: string }> {
     const { email, password } = loginDTO;
 
     const user = await this.userModel.findOne({ email });
@@ -75,6 +75,7 @@ export class AuthService {
     
     const refreshToken = this.jwtService.sign({ id: user._id }, { expiresIn: '7d' });
     return {
+      _id: user._id,
       email: email,
       username: user.username,
       accessToken: token,
@@ -86,7 +87,7 @@ export class AuthService {
     try {
       // Giải mã mã token refresh để trích xuất thông tin cần thiết
       const decodedToken = this.jwtService.verify(refreshToken, {
-        secret: jwtConstants.SECRET, // Đảm bảo sử dụng secret riêng cho mã token refresh
+        secret: jwtConstants.SECRET, 
       });
 
       

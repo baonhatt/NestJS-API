@@ -16,7 +16,7 @@ import * as argon2 from 'argon2';
     AuthModule,
     JwtModule.register({
       secret: jwtConstants.SECRET,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '1m' },
     }),
     MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
   ],

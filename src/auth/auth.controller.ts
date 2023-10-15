@@ -18,7 +18,7 @@ export class AuthController {
   }
 
 
-  @Get("/login")
+  @Post("/login")
 
   login(@Body() loginDTO: loginDTO): Promise<{ accessToken: string }> {
     return this.authService.login(loginDTO);
@@ -31,12 +31,12 @@ export class AuthController {
     return this.authService.findAll();
   }
   
-  @Get(':id')
+  @Get('/user-profile/:id')
   findById( @Param('id') id: string) {
-    return this.authService.deleteUser(id);
+    return this.authService.findById(id);
   }
 
-  @Delete('/delete-all')
+  @Delete('/delete-all') 
   async deleteAllUsers() {
     await this.authService.deleteAll();
     return { message: 'All users deleted successfully' };

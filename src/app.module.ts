@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 import { BlogModule } from './blog/blog.module';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -10,6 +10,9 @@ import { User, UserSchema } from './schemas/user.schema';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { jwtConstants } from './auth/constant';
+import { APP_PIPE } from '@nestjs/core';
+import { Comment, CommentSchema } from './schemas/comment.schema';
+
 @Module({
   imports: [
     PassportModule.register({defaultStrategy: 'jwt'}),
@@ -20,8 +23,15 @@ import { jwtConstants } from './auth/constant';
     }),
     MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
     MongooseModule.forRoot('mongodb+srv://baonhat20:yA9A5NWVMvqmciHd@cluster0.lvvvjmp.mongodb.net/?retryWrites=true&w=majority'),
-     BlogModule ],
-  controllers: [AuthController],
-  providers: [AppService, AuthService,],
+     BlogModule,
+     ],
+  controllers: [AuthController, ],
+  providers: [AppService, AuthService, 
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
+    }],
+    exports: []
 })
-export class AppModule { }
+export class AppModule { }  
+  
